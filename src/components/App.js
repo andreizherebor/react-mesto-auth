@@ -76,14 +76,16 @@ function App() {
     }
   }, [isLoggedIn, navigate]);
 
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([user, cards]) => {
-      setCurrentUser(user);
-      setCards(cards);
-    }).catch((err) => {
-      console.error(err);
-    });
-  }, []);
+   useEffect(() => {
+    if (isLoggedIn === true) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([user, cards]) => {
+        setCurrentUser(user);
+        setCards(cards);
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+  }, [isLoggedIn]); 
 
   function handleUpdateUser(data) {
     api.updateUserInfo(data).then((newUser) => {
